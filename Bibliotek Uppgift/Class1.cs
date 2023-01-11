@@ -6,17 +6,17 @@ namespace Bibliotek_Uppgift
 {
     public class User
     {
-        public string Title;
         public string FirstName;
         public string Surname;
         public string SocialSecurityNumber;
+        public string Password;
 
-        public User(string Title, string FirstName, string Surname, string SocialSecurityNumber)
+        public User(string FirstName, string Surname, string SocialSecurityNumber, string Password)
         {
-            this.Title = Title;
             this.FirstName = FirstName;
             this.Surname = Surname;
             this.SocialSecurityNumber = SocialSecurityNumber;
+            this.Password = Password;
         }
     }
 }
