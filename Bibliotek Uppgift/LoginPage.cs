@@ -37,13 +37,14 @@ namespace Bibliotek_Uppgift
         }
         public static void Login()
         {
-            Console.WriteLine("Skriv in ditt personnummer");
+            Console.Write("Skriv in ditt personnummer: ");
             string SSNInput = Console.ReadLine(); //(Social Security Number)
-            Console.WriteLine("Skriv in ditt lösenord");
+            SSNInput = CheckSSN(SSNInput);
+            Console.Write("Skriv in ditt lösenord: ");
             string PasswordInput = Console.ReadLine();
             if (AuthenticateLogin(SSNInput, PasswordInput) == true)
             {
-
+                Console.WriteLine("Du har loggat in");
             }
             else
             {
@@ -57,27 +58,34 @@ namespace Bibliotek_Uppgift
         {
             string[] SSNArray = File.ReadAllLines(UserSocialSecurityNumber);
             string[] PasswordArray = File.ReadAllLines(UserPassword);
-            int SSNIndex = Array.IndexOf(SSNArray, SocialSecurityNumber); //Tar indexen av förekommandet av "SocialSecurityNumber"
-            if (SocialSecurityNumber == SSNArray[SSNIndex] && Password == PasswordArray[SSNIndex])
+            int SSNIndex = Array.IndexOf(SSNArray, SocialSecurityNumber); //Tar indexen för förekommandet av "SocialSecurityNumber"
+            if(SSNIndex > -1) //Om SocialSecurityNumber inte finns i arrayen så blir indexet -1
             {
-                return true;
+                if (Password == PasswordArray[SSNIndex])
+                {
+                    return true;
+                }
             }
             return false;
         }
         public static void SignUp()
         {
-            Console.WriteLine("Förnamn: ");
+            Console.Write("Förnamn: ");
             string FirstName = Console.ReadLine();
-            Console.WriteLine("Efternamn: ");
+            Console.Write("Efternamn: ");
             string Surname = Console.ReadLine();
-            Console.WriteLine("Personnummer(ÅÅMMDDNNNC): ");
+            Console.Write("Personnummer(ÅÅMMDDNNNC): ");
             string SocialSecurityNumber = Console.ReadLine();
-            while (SocialSecurityNumber.Length != 10)
+            SocialSecurityNumber = CheckSSN(SocialSecurityNumber);
+            if(CheckDuplicateSSN(SocialSecurityNumber))
             {
-                Console.WriteLine("Personnummret ska vara 10 siffror långt");
-                SocialSecurityNumber = Console.ReadLine();
+                Console.WriteLine("Ditt personnummer är redan registrerat!");
+                Console.ReadLine();
+                Console.Clear();
+                LoginOrSignUp();
+                return;
             }
-            Console.WriteLine("Lösenord: ");
+            Console.Write("Lösenord: ");
             string Password = Console.ReadLine();
             Console.WriteLine("Du har registrerat dig!");
             Console.ReadLine();
@@ -88,8 +96,30 @@ namespace Bibliotek_Uppgift
             File.AppendAllText(UserSurname, user.Surname + Environment.NewLine);
             File.AppendAllText(UserSocialSecurityNumber, user.SocialSecurityNumber + Environment.NewLine);
             File.AppendAllText(UserPassword, user.Password + Environment.NewLine);
+            
             LoginOrSignUp();
-
+        }
+        public static string CheckSSN(string SocialSecurityNumber)
+        {
+            while (SocialSecurityNumber.Length != 10)
+            {
+                Console.WriteLine("Personnummret ska vara 10 siffror långt");
+                SocialSecurityNumber = Console.ReadLine();
+            }
+            return SocialSecurityNumber;
+        }
+        public static bool CheckDuplicateSSN(string SocialSecurityNumber)
+        {
+            string[] SSNArray = File.ReadAllLines(UserSocialSecurityNumber);
+            
+            for (int i = 0; i < SSNArray.Length; i++)
+            {
+                if(SocialSecurityNumber == SSNArray[i])
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
