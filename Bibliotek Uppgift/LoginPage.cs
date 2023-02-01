@@ -44,7 +44,8 @@ namespace Bibliotek_Uppgift
             string PasswordInput = Console.ReadLine();
             if (AuthenticateLogin(SSNInput, PasswordInput) == true)
             {
-                Console.WriteLine("Du har loggat in");
+                Console.Clear();
+                MainPage.MainScreen();
             }
             else
             {
@@ -120,6 +121,35 @@ namespace Bibliotek_Uppgift
                 }
             }
             return false;
+        }
+        public static void ChangePassword()
+        {
+            Console.WriteLine("Skriv in ditt gamla lösenord");
+            string OldPassword = Console.ReadLine();
+            Console.WriteLine("Skriv in ditt personnummer");
+            string SocialSecurityNumber = Console.ReadLine();
+            SocialSecurityNumber = CheckSSN(SocialSecurityNumber);
+
+            if(AuthenticateLogin(SocialSecurityNumber, OldPassword) == true)
+            {
+                Console.WriteLine("Skriv in ditt nya lösenord");
+                string NewPassword = Console.ReadLine();
+                string text = File.ReadAllText(UserPassword);
+                text = text.Replace(OldPassword, NewPassword);
+                File.WriteAllText(UserPassword, text);
+                Console.WriteLine("Du har bytt lösenord!");
+                Console.ReadLine();
+                Console.Clear();
+            }
+            else
+            {
+                Console.WriteLine("Lösenord och personnummer stämde inte!");
+                Console.ReadLine();
+                Console.Clear();
+            }
+            
+
+            
         }
     }
 }
