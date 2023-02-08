@@ -10,7 +10,7 @@ namespace Bibliotek_Uppgift
         private static string BookAuthor = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\BookAuthor.txt";
         private static string BookGenre = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\BookGenre.txt";
         private static string BookISBN = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\BookISBN.txt";
-        public static void MainScreen()
+        public static void UserMainScreen()
         {
             Console.WriteLine("Startsida");
             Console.WriteLine("Vill du söka på en bok(1), kolla på dina lånade böcker(2), ändra lösenord(3), eller logga ut(4)");
@@ -30,10 +30,40 @@ namespace Bibliotek_Uppgift
             }
             else if(Input == 3)
             {
-                LoginPage.ChangePassword();
-                MainScreen();
+                ManageUser.ChangePassword();
+                UserMainScreen();
             }
             else if(Input == 4)
+            {
+                LogOut();
+            }
+        }
+        public static void LibrarianMainScreen()
+        {
+            Console.WriteLine("Lägg till användare(1), redigera en användare(2), ta bort en användare(3), lista alla medlemmar(4), logga ut(5)");
+            int Input = Int32.Parse(Console.ReadLine());
+            while (Input < 1 || Input > 4)
+            {
+                Console.WriteLine("Ej giltig input");
+                Input = Int32.Parse(Console.ReadLine());
+            }
+            if(Input == 1)
+            {
+                LoginPage.SignUp();
+            }
+            else if(Input == 2)
+            {
+                ManageUser.EditUser();
+            }
+            else if(Input == 3)
+            {
+                ManageUser.RemoveUser();
+            }
+            else if(Input == 4)
+            {
+
+            }
+            else if(Input == 5)
             {
                 LogOut();
             }

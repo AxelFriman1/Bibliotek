@@ -11,6 +11,7 @@ namespace Bibliotek_Uppgift
         private static string UserSurname = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\userSurname.txt";
         private static string UserSocialSecurityNumber = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\userSocialSecurityNumber.txt";
         private static string UserPassword = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\userPassword.txt";
+        private static string UserTitle = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\userTitle.txt";
         public static void StartPage()
         {
             LoginOrSignUp();
@@ -42,10 +43,16 @@ namespace Bibliotek_Uppgift
             SSNInput = CheckSSN(SSNInput);
             Console.Write("Skriv in ditt lösenord: ");
             string PasswordInput = Console.ReadLine();
-            if (AuthenticateLogin(SSNInput, PasswordInput) == true)
+
+            if (AuthenticateLogin(SSNInput, PasswordInput) == true && CheckUserTitle(SSNInput) == "Member")
             {
                 Console.Clear();
-                MainPage.MainScreen();
+                MainPage.UserMainScreen();
+            }
+            else if(AuthenticateLogin(SSNInput, PasswordInput) == true && CheckUserTitle(SSNInput) == "Librarian")
+            {
+                Console.Clear();
+                MainPage.LibrarianMainScreen();
             }
             else
             {
@@ -69,6 +76,20 @@ namespace Bibliotek_Uppgift
             }
             return false;
         }
+        public static string CheckUserTitle(string SocialSecurityNumber)
+        {
+            string[] SSNArray = File.ReadAllLines(UserSocialSecurityNumber);
+            string[] TitleArray = File.ReadAllLines(UserTitle);
+            int SSNIndex = Array.IndexOf(SSNArray, SocialSecurityNumber); //Tar indexen för förekommandet av "SocialSecurityNumber"
+            if (SSNIndex > -1) //Om SocialSecurityNumber inte finns i arrayen så blir indexet -1
+            {
+                if (TitleArray[SSNIndex] == "Member") 
+                {
+                    return "Member";
+                }
+            }
+            return "Librarian";
+        }
         public static void SignUp()
         {
             Console.Write("Förnamn: ");
@@ -80,7 +101,7 @@ namespace Bibliotek_Uppgift
             SocialSecurityNumber = CheckSSN(SocialSecurityNumber);
             if(CheckDuplicateSSN(SocialSecurityNumber))
             {
-                Console.WriteLine("Ditt personnummer är redan registrerat!");
+                Console.WriteLine("Personnummret är redan registrerat!");
                 Console.ReadLine();
                 Console.Clear();
                 LoginOrSignUp();
@@ -97,7 +118,8 @@ namespace Bibliotek_Uppgift
             File.AppendAllText(UserSurname, user.Surname + Environment.NewLine);
             File.AppendAllText(UserSocialSecurityNumber, user.SocialSecurityNumber + Environment.NewLine);
             File.AppendAllText(UserPassword, user.Password + Environment.NewLine);
-            
+            File.AppendAllText(UserTitle, User.Title + Environment.NewLine);
+
             LoginOrSignUp();
         }
         public static string CheckSSN(string SocialSecurityNumber)
@@ -121,35 +143,6 @@ namespace Bibliotek_Uppgift
                 }
             }
             return false;
-        }
-        public static void ChangePassword()
-        {
-            Console.WriteLine("Skriv in ditt gamla lösenord");
-            string OldPassword = Console.ReadLine();
-            Console.WriteLine("Skriv in ditt personnummer");
-            string SocialSecurityNumber = Console.ReadLine();
-            SocialSecurityNumber = CheckSSN(SocialSecurityNumber);
-
-            if(AuthenticateLogin(SocialSecurityNumber, OldPassword) == true)
-            {
-                Console.WriteLine("Skriv in ditt nya lösenord");
-                string NewPassword = Console.ReadLine();
-                string text = File.ReadAllText(UserPassword);
-                text = text.Replace(OldPassword, NewPassword);
-                File.WriteAllText(UserPassword, text);
-                Console.WriteLine("Du har bytt lösenord!");
-                Console.ReadLine();
-                Console.Clear();
-            }
-            else
-            {
-                Console.WriteLine("Lösenord och personnummer stämde inte!");
-                Console.ReadLine();
-                Console.Clear();
-            }
-            
-
-            
         }
     }
 }

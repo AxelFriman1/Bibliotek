@@ -10,6 +10,7 @@ namespace Bibliotek_Uppgift
         public string Surname;
         public string SocialSecurityNumber;
         public string Password;
+        public static string Title = "Member";
 
         public User(string FirstName, string Surname, string SocialSecurityNumber, string Password)
         {
