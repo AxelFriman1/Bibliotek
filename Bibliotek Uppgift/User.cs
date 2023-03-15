@@ -11,6 +11,7 @@ namespace Bibliotek_Uppgift
         public string SocialSecurityNumber;
         public string Password;
         public static string Title = "Member";
+        public static string BorrowedBooks = "";
 
         public User(string FirstName, string Surname, string SocialSecurityNumber, string Password)
         {

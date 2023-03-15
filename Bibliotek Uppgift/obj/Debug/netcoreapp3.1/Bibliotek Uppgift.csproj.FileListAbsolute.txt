@@ -4,10 +4,11 @@ C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\bin\Debug\netco
 C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\bin\Debug\netcoreapp3.1\Bibliotek Uppgift.runtimeconfig.dev.json
 C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\bin\Debug\netcoreapp3.1\Bibliotek Uppgift.dll
 C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\bin\Debug\netcoreapp3.1\Bibliotek Uppgift.pdb
-C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\obj\Debug\netcoreapp3.1\Bibliotek Uppgift.csprojAssemblyReference.cache
 C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\obj\Debug\netcoreapp3.1\Bibliotek Uppgift.csproj.CoreCompileInputs.cache
 C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\obj\Debug\netcoreapp3.1\Bibliotek Uppgift.AssemblyInfoInputs.cache
 C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\obj\Debug\netcoreapp3.1\Bibliotek Uppgift.AssemblyInfo.cs
 C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\obj\Debug\netcoreapp3.1\Bibliotek Uppgift.dll
 C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\obj\Debug\netcoreapp3.1\Bibliotek Uppgift.pdb
 C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\obj\Debug\netcoreapp3.1\Bibliotek Uppgift.genruntimeconfig.cache
+C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\obj\Debug\netcoreapp3.1\Bibliotek Uppgift.csproj.AssemblyReference.cache
+C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\obj\Debug\netcoreapp3.1\Bibliotek Uppgift.GeneratedMSBuildEditorConfig.editorconfig

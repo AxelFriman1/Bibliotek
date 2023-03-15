@@ -11,7 +11,8 @@ namespace Bibliotek_Uppgift
         private static string UserSurname = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\userSurname.txt";
         private static string UserSocialSecurityNumber = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\userSocialSecurityNumber.txt";
         private static string UserPassword = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\userPassword.txt";
-        public static void ChangePassword()
+        private static string UserTitle = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\userTitle.txt";
+        public static void ChangePassword() //Funktion som tillåter användaren att byta sitt eget lösenord
         {
             Console.WriteLine("Skriv in ditt gamla lösenord");
             string OldPassword = Console.ReadLine();
@@ -37,9 +38,40 @@ namespace Bibliotek_Uppgift
                 Console.Clear();
             }
         }
+        public static void AddUser()
+        {
+            Console.Write("Förnamn: ");
+            string FirstName = Console.ReadLine();
+            Console.Write("Efternamn: ");
+            string Surname = Console.ReadLine();
+            Console.Write("Personnummer(ÅÅMMDDNNNC): ");
+            string SocialSecurityNumber = Console.ReadLine();
+            SocialSecurityNumber = LoginPage.CheckSSN(SocialSecurityNumber);
+            if (LoginPage.SSNExists(SocialSecurityNumber))
+            {
+                Console.WriteLine("Personnummret är redan registrerat!");
+                Console.ReadLine();
+                Console.Clear();
+                MainPage.LibrarianMainScreen();
+                return;
+            }
+            Console.Write("Lösenord: ");
+            string Password = Console.ReadLine();
+            Console.WriteLine("Du har registrerat en användare!");
+            Console.ReadLine();
+            Console.Clear();
+
+            User user = new User(FirstName, Surname, SocialSecurityNumber, Password);
+            File.AppendAllText(UserFirstName, user.FirstName + Environment.NewLine);
+            File.AppendAllText(UserSurname, user.Surname + Environment.NewLine);
+            File.AppendAllText(UserSocialSecurityNumber, user.SocialSecurityNumber + Environment.NewLine);
+            File.AppendAllText(UserPassword, user.Password + Environment.NewLine);
+            File.AppendAllText(UserTitle, User.Title + Environment.NewLine);
+
+            MainPage.LibrarianMainScreen();
+        }
         public static void RemoveUser()
         {
-
             List<string> SSNList = new List<string>(File.ReadAllLines(UserSocialSecurityNumber));
             List<string> PasswordList = new List<string>(File.ReadAllLines(UserPassword));
             List<string> FirstNameList = new List<string>(File.ReadAllLines(UserFirstName));
@@ -47,6 +79,14 @@ namespace Bibliotek_Uppgift
 
             Console.Write("Skriv in personnummer på användare du vill ta bort: ");
             string SocialSecurityNumber = Console.ReadLine();
+            if(LoginPage.SSNExists(SocialSecurityNumber) == false)
+            {
+                Console.WriteLine("Personnummer ej registrerat");
+                Console.ReadLine();
+                Console.Clear();
+                MainPage.LibrarianMainScreen();
+                return;
+            }
             int index = SSNList.FindIndex(a => a.Contains(SocialSecurityNumber));
 
             SSNList.RemoveAt(index);
@@ -69,46 +109,79 @@ namespace Bibliotek_Uppgift
             List<string> SSNList = new List<string>(File.ReadAllLines(UserSocialSecurityNumber));
 
             Console.Write("Skriv in personnummer på användare du vill redigera: ");
-            string SocialSecurityNumber = Console.ReadLine(); //KOLLA OM PERSONNUMMER EXISTERAR
-         
-            Console.WriteLine("Vill du ändra förnamn(1), efternamn(2), personnummer(3) eller lösenord(4)");
-            int Input = Int32.Parse(Console.ReadLine());
-
+            string SocialSecurityNumber = Console.ReadLine(); 
+            if(LoginPage.SSNExists(SocialSecurityNumber) == false)
+            {
+                Console.WriteLine("Personnummer ej registrerat!");
+                Console.ReadLine();
+                Console.Clear();
+                MainPage.LibrarianMainScreen();
+                return;
+            }
             int Index = SSNList.FindIndex(a => a.Contains(SocialSecurityNumber));
 
-            while (Input < 1 || Input > 4)
+            Console.WriteLine("Vill du redigera förnamn(1), efternamn(2) eller lösenord(3)");
+            int Input = Int32.Parse(Console.ReadLine());
+
+            while (Input < 1 || Input > 3)
             {
                 Console.WriteLine("Ej giltig input");
                 Input = Int32.Parse(Console.ReadLine());
             }
             if(Input == 1)
             {
-                UpdateFirstName(SocialSecurityNumber, Index);
+                UpdateFirstName(Index);
             }
             else if(Input == 2)
             {
-
-            }
-            else if(Input == 3)
-            {
-
+                UpdateSurname(Index);
             }
             else 
             {
-
+                UpdatePassword(Index);
             }
+            
             Console.WriteLine("Användare uppdaterad");
             Console.ReadLine();
             Console.Clear();
             MainPage.LibrarianMainScreen();
         }
-        public static void UpdateFirstName(string SocialSecurityNumber, int Index)
+        public static void UpdateFirstName(int Index)
         {
             List<string> FirstNameList = new List<string>(File.ReadAllLines(UserFirstName));
             Console.Write("Skriv in nytt förnamn: ");
             string NewFirstName = Console.ReadLine();
             FirstNameList[Index] = NewFirstName;
             File.WriteAllLines(UserFirstName, FirstNameList);
+        }
+        public static void UpdateSurname(int Index)
+        {
+            List<string> SurnameList = new List<string>(File.ReadAllLines(UserSurname));
+            Console.Write("Skriv in nytt efternamn: ");
+            string NewSurname= Console.ReadLine();
+            SurnameList[Index] = NewSurname;
+            File.WriteAllLines(UserSurname, SurnameList);
+        }
+        public static void UpdatePassword(int Index) //Funktion som tillåter bibliotekarien att byta användarens lösenord
+        {
+            List<string> PasswordList = new List<string>(File.ReadAllLines(UserPassword));
+            Console.Write("Skriv in nytt lösenord: ");
+            string NewPassword = Console.ReadLine();
+            PasswordList[Index] = NewPassword;
+            File.WriteAllLines(UserPassword, PasswordList);
+        }
+        public static void ListUsers()
+        {
+            string[] FirstNames = File.ReadAllLines(UserFirstName);
+            string[] Surnames = File.ReadAllLines(UserSurname);
+            Console.WriteLine("Användare:");
+            for (int i = 0; i < FirstNames.Length; i++)
+            {
+                Console.WriteLine($"{FirstNames[i]} {Surnames[i]}");
+            }
+            Console.ReadLine();
+            Console.Clear();
+            MainPage.LibrarianMainScreen();
         }
     }
 }

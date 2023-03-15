@@ -13,7 +13,7 @@ namespace Bibliotek_Uppgift
         public static void UserMainScreen()
         {
             Console.WriteLine("Startsida");
-            Console.WriteLine("Vill du söka på en bok(1), kolla på dina lånade böcker(2), ändra lösenord(3), eller logga ut(4)");
+            Console.WriteLine("Vill du söka på en bok(1), låna en bok(2), ändra lösenord(3), eller logga ut(4)");
             int Input = Int32.Parse(Console.ReadLine());
             while(Input < 1 || Input > 4)
             {
@@ -22,34 +22,34 @@ namespace Bibliotek_Uppgift
             }
             if (Input == 1)
             {
-               
+                ManageBooks.SearchBooks();
             }
             else if (Input == 2)
             {
-                CheckInventory();
+                ManageBooks.BorrowBook();
             }
             else if(Input == 3)
             {
                 ManageUser.ChangePassword();
                 UserMainScreen();
             }
-            else if(Input == 4)
+            else
             {
                 LogOut();
             }
         }
         public static void LibrarianMainScreen()
         {
-            Console.WriteLine("Lägg till användare(1), redigera en användare(2), ta bort en användare(3), lista alla medlemmar(4), logga ut(5)");
+            Console.WriteLine("Lägg till användare(1), redigera en användare(2), ta bort en användare(3), lista alla medlemmar(4), lägg till en bok(5), radera en bok(6), redigera en bok(7), logga ut(8)");
             int Input = Int32.Parse(Console.ReadLine());
-            while (Input < 1 || Input > 4)
+            while (Input < 1 || Input > 8)
             {
                 Console.WriteLine("Ej giltig input");
                 Input = Int32.Parse(Console.ReadLine());
             }
             if(Input == 1)
             {
-                LoginPage.SignUp();
+                ManageUser.AddUser();
             }
             else if(Input == 2)
             {
@@ -61,9 +61,21 @@ namespace Bibliotek_Uppgift
             }
             else if(Input == 4)
             {
-
+                ManageUser.ListUsers();
             }
             else if(Input == 5)
+            {
+                ManageBooks.AddBook();
+            }
+            else if(Input == 6)
+            {
+                ManageBooks.DeleteBook();
+            }
+            else if(Input == 7)
+            {
+                ManageBooks.EditBook();
+            }
+            else
             {
                 LogOut();
             }
@@ -75,14 +87,6 @@ namespace Bibliotek_Uppgift
             Console.ReadLine();
             Console.Clear();
             LoginPage.StartPage();
-        }
-        public static void CheckInventory()
-        {
-
-        }
-        public static void SearchBooks()
-        {
-
         }
         
     }

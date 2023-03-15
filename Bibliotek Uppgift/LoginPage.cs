@@ -12,6 +12,7 @@ namespace Bibliotek_Uppgift
         private static string UserSocialSecurityNumber = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\userSocialSecurityNumber.txt";
         private static string UserPassword = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\userPassword.txt";
         private static string UserTitle = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\userTitle.txt";
+        private static string BorrowedBooks = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\BorrowedBooks.txt";
         public static void StartPage()
         {
             LoginOrSignUp();
@@ -99,7 +100,7 @@ namespace Bibliotek_Uppgift
             Console.Write("Personnummer(ÅÅMMDDNNNC): ");
             string SocialSecurityNumber = Console.ReadLine();
             SocialSecurityNumber = CheckSSN(SocialSecurityNumber);
-            if(CheckDuplicateSSN(SocialSecurityNumber))
+            if(SSNExists(SocialSecurityNumber))
             {
                 Console.WriteLine("Personnummret är redan registrerat!");
                 Console.ReadLine();
@@ -119,6 +120,7 @@ namespace Bibliotek_Uppgift
             File.AppendAllText(UserSocialSecurityNumber, user.SocialSecurityNumber + Environment.NewLine);
             File.AppendAllText(UserPassword, user.Password + Environment.NewLine);
             File.AppendAllText(UserTitle, User.Title + Environment.NewLine);
+            File.AppendAllText(BorrowedBooks, User.BorrowedBooks + Environment.NewLine);
 
             LoginOrSignUp();
         }
@@ -131,7 +133,7 @@ namespace Bibliotek_Uppgift
             }
             return SocialSecurityNumber;
         }
-        public static bool CheckDuplicateSSN(string SocialSecurityNumber)
+        public static bool SSNExists(string SocialSecurityNumber)
         {
             string[] SSNArray = File.ReadAllLines(UserSocialSecurityNumber);
             

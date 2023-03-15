@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "xALt2wbFuluKp+V20rL5Yo4TCTM1t9C6RYq7+NVfHnnBCzDlbprjRqYSQCr2G6wCNYd/AjC5J+uZE8LRE9Tf7Q==",
+  "dgSpecHash": "FBuHks2aZabWj4F7ufVjJpVIXAhIJqfX1bYsXUV7+2jpr2fRpYZNkbe7mj/eLyLQWi3nNNTyHANHEl9BlT0vcg==",
   "success": true,
   "projectFilePath": "C:\\Users\\axel.friman\\Desktop\\Bibliotek Uppgift\\Bibliotek Uppgift\\Bibliotek Uppgift.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\axel.friman\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.1.0\\microsoft.windowsdesktop.app.ref.3.1.0.nupkg.sha512",
+    "C:\\Users\\axel.friman\\.nuget\\packages\\microsoft.netcore.app.ref\\3.1.0\\microsoft.netcore.app.ref.3.1.0.nupkg.sha512",
+    "C:\\Users\\axel.friman\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
+    "C:\\Users\\axel.friman\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.32\\microsoft.netcore.app.host.win-x64.3.1.32.nupkg.sha512"
+  ],
   "logs": []
 }
