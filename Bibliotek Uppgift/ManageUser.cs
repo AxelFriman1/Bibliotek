@@ -12,31 +12,18 @@ namespace Bibliotek_Uppgift
         private static string UserSocialSecurityNumber = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\userSocialSecurityNumber.txt";
         private static string UserPassword = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\userPassword.txt";
         private static string UserTitle = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\userTitle.txt";
-        public static void ChangePassword() //Funktion som tillåter användaren att byta sitt eget lösenord
+        private static string BorrowedBooks = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\BorrowedBooks.txt";
+        public static void ChangePassword(int UserIndex) //Funktion som tillåter användaren att byta sitt eget lösenord
         {
-            Console.WriteLine("Skriv in ditt gamla lösenord");
-            string OldPassword = Console.ReadLine();
-            Console.WriteLine("Skriv in ditt personnummer");
-            string SocialSecurityNumber = Console.ReadLine();
-            SocialSecurityNumber = LoginPage.CheckSSN(SocialSecurityNumber);
-
-            if (LoginPage.AuthenticateLogin(SocialSecurityNumber, OldPassword) == true)
-            {
-                Console.WriteLine("Skriv in ditt nya lösenord");
-                string NewPassword = Console.ReadLine();
-                string text = File.ReadAllText(UserPassword);
-                text = text.Replace(OldPassword, NewPassword);
-                File.WriteAllText(UserPassword, text);
-                Console.WriteLine("Du har bytt lösenord!");
-                Console.ReadLine();
-                Console.Clear();
-            }
-            else
-            {
-                Console.WriteLine("Lösenord och personnummer stämde inte!");
-                Console.ReadLine();
-                Console.Clear();
-            }
+            List<string> PasswordList = new List<string>(File.ReadAllLines(UserPassword));
+            Console.WriteLine("Skriv in ditt nya lösenord");
+            string NewPassword = Console.ReadLine();
+            PasswordList[UserIndex] = NewPassword;
+            File.WriteAllLines(UserPassword, PasswordList);
+            Console.WriteLine("Du har bytt lösenord!");
+            Console.ReadLine();
+            Console.Clear();
+            MainPage.UserMainScreen(UserIndex);
         }
         public static void AddUser()
         {
@@ -67,6 +54,7 @@ namespace Bibliotek_Uppgift
             File.AppendAllText(UserSocialSecurityNumber, user.SocialSecurityNumber + Environment.NewLine);
             File.AppendAllText(UserPassword, user.Password + Environment.NewLine);
             File.AppendAllText(UserTitle, User.Title + Environment.NewLine);
+            File.AppendAllText(BorrowedBooks, User.BorrowedBooks + Environment.NewLine);
 
             MainPage.LibrarianMainScreen();
         }
@@ -76,6 +64,7 @@ namespace Bibliotek_Uppgift
             List<string> PasswordList = new List<string>(File.ReadAllLines(UserPassword));
             List<string> FirstNameList = new List<string>(File.ReadAllLines(UserFirstName));
             List<string> SurnameList = new List<string>(File.ReadAllLines(UserSurname));
+            List<string> BorrowedList = new List<string>(File.ReadAllLines(BorrowedBooks));
 
             Console.Write("Skriv in personnummer på användare du vill ta bort: ");
             string SocialSecurityNumber = Console.ReadLine();
@@ -93,11 +82,13 @@ namespace Bibliotek_Uppgift
             PasswordList.RemoveAt(index);
             FirstNameList.RemoveAt(index);
             SurnameList.RemoveAt(index);
+            BorrowedList.RemoveAt(index);
 
             File.WriteAllLines(UserSocialSecurityNumber, SSNList);
             File.WriteAllLines(UserPassword, PasswordList);
             File.WriteAllLines(UserFirstName, FirstNameList);
             File.WriteAllLines(UserSurname, SurnameList);
+            File.WriteAllLines(BorrowedBooks, BorrowedList);
 
             Console.WriteLine("Användare raderad!");
             Console.ReadLine();
@@ -174,10 +165,14 @@ namespace Bibliotek_Uppgift
         {
             string[] FirstNames = File.ReadAllLines(UserFirstName);
             string[] Surnames = File.ReadAllLines(UserSurname);
+            string[] Titles = File.ReadAllLines(UserTitle);
             Console.WriteLine("Användare:");
             for (int i = 0; i < FirstNames.Length; i++)
             {
-                Console.WriteLine($"{FirstNames[i]} {Surnames[i]}");
+                if (Titles[i] == "Member")
+                {
+                    Console.WriteLine($"{FirstNames[i]} {Surnames[i]}");
+                }
             }
             Console.ReadLine();
             Console.Clear();

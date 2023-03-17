@@ -13,7 +13,6 @@ namespace Bibliotek_Uppgift
         private static string BookAuthor = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\BookAuthor.txt";
         private static string BookAccesible = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\BookAccesible.txt";
         private static string BorrowedBooks = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\BorrowedBooks.txt";
-        private static string UserSocialSecurityNumber = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\userSocialSecurityNumber.txt";
 
         public class Book
         {
@@ -207,25 +206,12 @@ namespace Bibliotek_Uppgift
                 }
             }
         }
-        public static void BorrowBook()
+        public static void BorrowBook(int UserIndex)
         {
             List<string> ISBNList = new List<string>(File.ReadAllLines(BookISBN));
             List<string> AccesibleList = new List<string>(File.ReadAllLines(BookAccesible));
             List<string> BorrowedBooksList = new List<string>(File.ReadAllLines(BorrowedBooks));
-            List<string> SSNList = new List<string>(File.ReadAllLines(UserSocialSecurityNumber));
-            Console.WriteLine("Skriv in ditt personnummer");
-            string SocialSecurityNumber = Console.ReadLine();
-            Console.WriteLine("Skriv in ditt lösenord");
-            string Password = Console.ReadLine();
-            if(LoginPage.AuthenticateLogin(SocialSecurityNumber, Password) == false)
-            {
-                Console.WriteLine("Inloggningsuppgifter stämde inte!");
-                Console.ReadLine();
-                Console.Clear();
-                MainPage.UserMainScreen();
-                return; 
-            }
-            int Index = SSNList.FindIndex(a => a.Contains(SocialSecurityNumber));
+         
             Console.WriteLine("Skriv in ISBN på bok du vill låna");
             string ISBNInput = Console.ReadLine();
             int ISBNIndex = ISBNList.FindIndex(a => a.Contains(ISBNInput));
@@ -233,7 +219,7 @@ namespace Bibliotek_Uppgift
             {
                 if(ISBNInput == ISBNList[i] && AccesibleList[i] == "true")
                 {
-                    BorrowedBooksList[Index] = BorrowedBooksList[Index] + " " + ISBNInput;
+                    BorrowedBooksList[UserIndex] = BorrowedBooksList[UserIndex] + " " + ISBNInput;
                     AccesibleList[ISBNIndex] = "false";
                     Console.WriteLine("Du har lånat boken!");
                     break;
@@ -247,7 +233,22 @@ namespace Bibliotek_Uppgift
             File.WriteAllLines(BookAccesible, AccesibleList);
             Console.ReadLine();
             Console.Clear();
-            MainPage.UserMainScreen();
+            MainPage.UserMainScreen(UserIndex);
         }
+        public static void ReturnBook(int UserIndex)
+        {
+            List<string> ISBNList = new List<string>(File.ReadAllLines(BookISBN));
+            List<string> AccesibleList = new List<string>(File.ReadAllLines(BookAccesible));
+            List<string> BorrowedBooksList = new List<string>(File.ReadAllLines(BorrowedBooks));
+            Console.WriteLine("Skriv in ISBN på bok du vill returnera");
+            string ISBNInput = Console.ReadLine();
+            int ISBNIndex = ISBNList.FindIndex(a => a.Contains(ISBNInput));
+            if (BorrowedBooksList[UserIndex].Contains(ISBNInput))
+            {
+                BorrowedBooksList.RemoveAt(UserIndex);
+                AccesibleList[ISBNIndex] = "true";
+            }
+        }
+        
     }
 }

@@ -47,8 +47,10 @@ namespace Bibliotek_Uppgift
 
             if (AuthenticateLogin(SSNInput, PasswordInput) == true && CheckUserTitle(SSNInput) == "Member")
             {
+                List<string> SSNList = new List<string>(File.ReadAllLines(UserSocialSecurityNumber));
+                int Index = SSNList.FindIndex(a => a.Contains(SSNInput));
                 Console.Clear();
-                MainPage.UserMainScreen();
+                MainPage.UserMainScreen(Index);
             }
             else if(AuthenticateLogin(SSNInput, PasswordInput) == true && CheckUserTitle(SSNInput) == "Librarian")
             {

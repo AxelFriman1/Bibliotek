@@ -6,16 +6,12 @@ namespace Bibliotek_Uppgift
 {
     public class MainPage
     {
-        private static string BookTitle = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\BookTitle.txt";
-        private static string BookAuthor = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\BookAuthor.txt";
-        private static string BookGenre = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\BookGenre.txt";
-        private static string BookISBN = @"C:\Users\axel.friman\Desktop\Bibliotek Uppgift\Bibliotek Uppgift\BookISBN.txt";
-        public static void UserMainScreen()
+        public static void UserMainScreen(int UserIndex)
         {
             Console.WriteLine("Startsida");
-            Console.WriteLine("Vill du söka på en bok(1), låna en bok(2), ändra lösenord(3), eller logga ut(4)");
+            Console.WriteLine("Vill du söka på en bok(1), låna en bok(2), returnera en bok(3), ändra lösenord(4), eller logga ut(5)");
             int Input = Int32.Parse(Console.ReadLine());
-            while(Input < 1 || Input > 4)
+            while(Input < 1 || Input > 5)
             {
                 Console.WriteLine("Ej giltig input");
                 Input = Int32.Parse(Console.ReadLine());
@@ -26,12 +22,15 @@ namespace Bibliotek_Uppgift
             }
             else if (Input == 2)
             {
-                ManageBooks.BorrowBook();
+                ManageBooks.BorrowBook(UserIndex);
             }
             else if(Input == 3)
             {
-                ManageUser.ChangePassword();
-                UserMainScreen();
+                ManageBooks.ReturnBook(UserIndex);
+            }
+            else if(Input == 4)
+            {
+                ManageUser.ChangePassword(UserIndex);
             }
             else
             {
